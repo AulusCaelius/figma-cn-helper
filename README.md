@@ -16,15 +16,20 @@
 
 ## 安装步骤（1 分钟完成）
 
-### 第一步：在 Chrome / Edge 中加载扩展
+### 第一步：获取扩展文件
+
+- **普通用户推荐（直接下载压缩包）**：前往本仓库 [Releases 页面](https://github.com/AulusCaelius/figma-cn-helper/releases/latest) 下载最新的 `figma-cn-helper-v*.zip`，并**解压**到本地固定文件夹（例如「文稿」目录，后续不要删除该文件夹）。
+- **开发者方式**：执行 `git clone https://github.com/AulusCaelius/figma-cn-helper.git`。
+
+### 第二步：在 Chrome / Edge 中加载扩展
 
 1. 打开 Chrome 地址栏输入 `chrome://extensions` 并回车（Edge 输入 `edge://extensions`）。
 2. 打开右上角的 **「开发者模式」** 开关。
 3. 点击左上角 **「加载已解压的扩展程序」**（Edge 为「加载解压缩的扩展」）。
-4. 选择本仓库克隆或解压后的文件夹（包含 `manifest.json` 的根目录）。
-5. 打开或刷新 [https://www.figma.com](https://www.figma.com)，即可自动汉化。
+4. 选择刚才解压出来的文件夹（包含 `manifest.json` 的那一层目录）。
+5. 打开或刷新 [https://www.figma.com](https://www.figma.com)，即可自动生效。
 
-### 第二步（推荐）：将 Figma 安装为 macOS 独立桌面 App
+### 第三步（推荐）：将 Figma 安装为 macOS / Windows 独立桌面 App
 
 这样你可以像使用原生客户端一样从程序坞（Dock）独立启动 Figma，且**完整保留本汉化插件**：
 
