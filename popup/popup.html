@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Figma 中文汉化助手</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <img class="logo" src="../icons/icon48.png" alt="Logo" />
+        <div class="brand-text">
+          <div class="title-row">
+            <h1>Figma 汉化助手</h1>
+            <span class="ver">v1.0.1</span>
+          </div>
+          <p class="subtitle" id="pageStatus">正在检测当前标签页...</p>
+        </div>
+      </div>
+      <label class="switch" title="总开关：启用或停用中文汉化">
+        <input type="checkbox" id="enabledToggle" checked />
+        <span class="slider"></span>
+      </label>
+    </header>
+
+    <div class="stats-bar">
+      <div class="stat-pill">
+        <span class="stat-label">内置词条</span>
+        <strong id="builtInCount">--</strong>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-label">自定义</span>
+        <strong id="customCount">0</strong>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-label">本页已译</span>
+        <strong id="translatedCount">--</strong>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <button class="action-btn primary" id="pickerBtn">
+        <span>🎯 页面取词补充翻译</span>
+      </button>
+      <button class="action-btn" id="rescanBtn" title="重新扫描并应用当前页翻译">
+        <span>↻ 刷新</span>
+      </button>
+    </div>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="settings" role="tab">常规设置</button>
+      <button class="tab" data-tab="dict" role="tab">自定义词库</button>
+    </nav>
+
+    <section class="panel active" id="panel-settings">
+      <div class="setting-list">
+        <label class="setting-item">
+          <div class="setting-info">
+            <div class="setting-title">长按 Option 临时查看英文原文</div>
+            <div class="setting-desc">按住键盘 Option（Alt）键可临时还原英文，松开恢复中文</div>
+          </div>
+          <input type="checkbox" id="peekAltToggle" checked />
+        </label>
+
+        <label class="setting-item">
+          <div class="setting-info">
+            <div class="setting-title">翻译提示气泡与占位符</div>
+            <div class="setting-desc">同步翻译搜索框占位符、按钮提示（tooltip）等属性文本</div>
+          </div>
+          <input type="checkbox" id="attrToggle" checked />
+        </label>
+
+        <label class="setting-item">
+          <div class="setting-info">
+            <div class="setting-title">保护图层名与文件名不被误翻</div>
+            <div class="setting-desc">跳过图层树、页面名、文件标题与评论正文中的用户内容</div>
+          </div>
+          <input type="checkbox" id="protectToggle" checked />
+        </label>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-title">💡 像桌面 App 一样独立运行</div>
+        <p>
+          在 Chrome / Edge 打开 <strong>figma.com</strong> 后，点击地址栏右侧的
+          <strong>「安装 Figma」</strong>（或菜单 → 投放、保存和分享 → 将页面作为应用安装），
+          即可获得独立窗口、Dock 图标、完整汉化与本机字体支持。
+        </p>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-dict">
+      <form class="add-form" id="addEntryForm">
+        <input type="text" id="newEnInput" placeholder="英文原文（如 Auto layout）" required />
+        <input type="text" id="newZhInput" placeholder="中文译文（如 自动布局）" required />
+        <button type="submit" class="add-btn">添加</button>
+      </form>
+
+      <div class="search-row">
+        <input type="search" id="dictSearch" placeholder="搜索自定义词条..." />
+      </div>
+
+      <div class="dict-list" id="dictList"></div>
+
+      <div class="dict-footer">
+        <button class="mini-btn" id="exportBtn">导出 JSON</button>
+        <button class="mini-btn" id="importBtn">导入 JSON</button>
+        <input type="file" id="importFile" accept="application/json,.json" hidden />
+        <button class="mini-btn danger" id="clearCustomBtn">清空</button>
+      </div>
+    </section>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script src="../dict/base-dict.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
