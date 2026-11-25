@@ -45,7 +45,51 @@
     return UNIT_MAP[u.toLowerCase()] || u;
   }
 
+  const MONTH_MAP = {
+    jan: "1", feb: "2", mar: "3", apr: "4", may: "5", jun: "6",
+    jul: "7", aug: "8", sep: "9", oct: "10", nov: "11", dec: "12"
+  };
+
+  const PLAN_MAP = {
+    education: "教育版",
+    starter: "入门版",
+    professional: "专业版",
+    organization: "组织版",
+    enterprise: "企业版",
+    free: "免费版"
+  };
+
+  function formatDateCN(monthStr, dayStr) {
+    const m = MONTH_MAP[monthStr.slice(0, 3).toLowerCase()];
+    return m ? `${m} 月 ${dayStr} 日` : `${monthStr} ${dayStr}`;
+  }
+
+  function formatPlanCN(plan) {
+    return PLAN_MAP[plan.toLowerCase()] || plan;
+  }
+
   const REGEX_RULES = [
+    // "2,576 credits left"
+    {
+      pattern: /^([\d,]+)\s+credits?\s+left$/i,
+      replace: (_, n) => `剩余 ${n} 额度`
+    },
+    // "Your seat in the XXX Education plan comes with 3,000 credits a month. Your seat credits reset Dec 1."
+    {
+      pattern: /^Your seat in the (.+?)\s+(Education|Starter|Professional|Organization|Enterprise|Free)\s+plan comes with ([\d,]+) credits? a month\.\s*Your seat credits reset ([A-Za-z]+)\s+(\d+)\.?$/i,
+      replace: (_, org, plan, n, mon, day) =>
+        `你在「${org}」${formatPlanCN(plan)}套餐中的席位每月包含 ${n} 额度。席位额度将于 ${formatDateCN(mon, day)}重置。`
+    },
+    // Fallback if split into two sentences
+    {
+      pattern: /^Your seat in the (.+?)\s+(Education|Starter|Professional|Organization|Enterprise|Free)\s+plan comes with ([\d,]+) credits? a month\.?$/i,
+      replace: (_, org, plan, n) =>
+        `你在「${org}」${formatPlanCN(plan)}套餐中的席位每月包含 ${n} 额度。`
+    },
+    {
+      pattern: /^Your seat credits reset ([A-Za-z]+)\s+(\d+)\.?$/i,
+      replace: (_, mon, day) => `席位额度将于 ${formatDateCN(mon, day)}重置。`
+    },
     // "Edited just now" / "Saved just now"
     {
       pattern: /^(Edited|Viewed|Created|Updated|Modified|Published|Saved|Deleted|Shared|Opened)\s+just now$/i,

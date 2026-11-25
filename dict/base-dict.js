@@ -1215,7 +1215,22 @@
     "Can view prototypes": "仅可查看原型",
     "Link settings": "链接设置",
     "Password protection": "密码保护",
-    "Allow viewers to copy, share, and export from this file": "允许查看者复制、分享和导出此文件"
+    "Allow viewers to copy, share, and export from this file": "允许查看者复制、分享和导出此文件",
+
+    // 查看与偏好设置精准补全 (v1.0.3)
+    "Show slices": "显示切片",
+    "Additional labels": "附加标签",
+    "Minimize left navigation bar": "最小化左侧导航栏",
+    "Use smart quotes/symbols": "使用智能引号/符号",
+    "Ctrl+click opens right click menus": "Ctrl+单击打开右键菜单",
+    "Use old shortcuts for outlines": "使用旧版轮廓线快捷键",
+    "Use ⌘⌥↑/↓ to rotate layers": "使用 ⌘⌥↑/↓ 旋转图层",
+    "Use Ctrl+Alt+↑/↓ to rotate layers": "使用 Ctrl+Alt+↑/↓ 旋转图层",
+    "Play audio notifications in AI chat": "在 AI 对话中播放声音提示",
+    "Show tool suggestions": "显示工具建议",
+    "Show Agents on canvas": "在画布上显示 AI 智能体",
+    "Use scroll wheel zoom": "使用鼠标滚轮缩放",
+    "Right-click and drag to pan": "右键拖拽平移画布"
   };
 
   global.__FIGMA_CN_BASE_DICT__ = BASE_DICT;
