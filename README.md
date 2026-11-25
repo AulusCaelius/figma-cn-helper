@@ -48,7 +48,7 @@
 figma plugin/
 ├── manifest.json           # Manifest V3 扩展清单（仅申请 storage 权限）
 ├── dict/
-│   ├── base-dict.js        # 内置 900+ 条 Figma 界面中文字典
+│   ├── base-dict.js        # 内置 1100+ 条 Figma 界面中文字典
 │   └── regex-rules.js      # 动态时间/数量/操作短语正则规则
 ├── content/
 │   └── translator.js       # React 安全 DOM 翻译引擎 + Option 速查 + Shadow DOM 取词

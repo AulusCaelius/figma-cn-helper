@@ -84,9 +84,94 @@
       pattern: /^Export\s+(\d+)\s+layers?$/i,
       replace: (_, n) => `导出 ${n} 个图层`
     },
-    // "Export Frame 1" -> keep target name intact
+    // "51 changes" / "1 change"
     {
-      pattern: /^Export\s+(.+)$/,
+      pattern: /^(\d+)\s+changes?$/i,
+      replace: (_, n) => `${n} 项更改`
+    },
+    // "3 assets" / "1 asset"
+    {
+      pattern: /^(\d+)\s+assets?$/i,
+      replace: (_, n) => `${n} 个资源`
+    },
+    // "3 instances" / "1 instance"
+    {
+      pattern: /^(\d+)\s+instances?$/i,
+      replace: (_, n) => `${n} 个实例`
+    },
+    // "3 variants" / "1 variant"
+    {
+      pattern: /^(\d+)\s+variants?$/i,
+      replace: (_, n) => `${n} 个变体`
+    },
+    // "3 pages" / "1 page"
+    {
+      pattern: /^(\d+)\s+pages?$/i,
+      replace: (_, n) => `${n} 个页面`
+    },
+    // "3 frames" / "1 frame"
+    {
+      pattern: /^(\d+)\s+frames?$/i,
+      replace: (_, n) => `${n} 个画板`
+    },
+    // "3 layers" / "1 layer"
+    {
+      pattern: /^(\d+)\s+layers?$/i,
+      replace: (_, n) => `${n} 个图层`
+    },
+    // "3 libraries" / "1 library"
+    {
+      pattern: /^(\d+)\s+(?:library|libraries)$/i,
+      replace: (_, n) => `${n} 个组件库`
+    },
+    // "3 results" / "3 matches" / "3 items" / "3 modes" / "3 tokens" / "3 issues"
+    {
+      pattern: /^(\d+)\s+results?$/i,
+      replace: (_, n) => `${n} 条结果`
+    },
+    {
+      pattern: /^(\d+)\s+match(?:es)?$/i,
+      replace: (_, n) => `${n} 处匹配`
+    },
+    {
+      pattern: /^(\d+)\s+items?$/i,
+      replace: (_, n) => `${n} 项`
+    },
+    {
+      pattern: /^(\d+)\s+modes?$/i,
+      replace: (_, n) => `${n} 个模式`
+    },
+    {
+      pattern: /^(\d+)\s+tokens?$/i,
+      replace: (_, n) => `${n} 个令牌`
+    },
+    {
+      pattern: /^(\d+)\s+issues?$/i,
+      replace: (_, n) => `${n} 个问题`
+    },
+    {
+      pattern: /^(\d+)\s+missing$/i,
+      replace: (_, n) => `${n} 项缺失`
+    },
+    {
+      pattern: /^(\d+)\s+hidden$/i,
+      replace: (_, n) => `${n} 项已隐藏`
+    },
+    {
+      pattern: /^(\d+)\s+unused$/i,
+      replace: (_, n) => `${n} 项未使用`
+    },
+    {
+      pattern: /^View all\s+(\d+)$/i,
+      replace: (_, n) => `查看全部 ${n} 项`
+    },
+    {
+      pattern: /^Add\s+(\d+)\s+more$/i,
+      replace: (_, n) => `再添加 ${n} 项`
+    },
+    // "Export Frame 1" -> keep target name intact (avoid catching generic English commands like "Export frames to PDF")
+    {
+      pattern: /^Export\s+(?!frames?\s+to\b)(.+)$/,
       replace: (_, target) => `导出 ${target}`
     },
     // "3 files" / "1 file"

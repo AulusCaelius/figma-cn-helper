@@ -86,12 +86,40 @@
     const custom = settings.customDict || {};
     for (const [k, v] of Object.entries(custom)) {
       if (!k || typeof v !== "string" || !v.trim()) continue;
-      customLowerMap.set(k.trim().toLowerCase(), v.trim());
+      customLowerMap.set(normalizeLookupText(k).toLowerCase(), v.trim());
     }
   }
 
   function isActiveTranslation() {
     return Boolean(settings.enabled) && !isPeekingOriginal;
+  }
+
+  function normalizeLookupText(str) {
+    return str
+      .replace(/\u2026/g, "...")
+      .replace(/[\u2018\u2019]/g, "'")
+      .replace(/[\u201C\u201D]/g, '"')
+      .replace(/\u00A0/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function lookupExactOrLower(text) {
+    const custom = settings.customDict || {};
+    if (Object.prototype.hasOwnProperty.call(custom, text) && custom[text]) {
+      return custom[text];
+    }
+    const lower = text.toLowerCase();
+    if (customLowerMap.has(lower)) {
+      return customLowerMap.get(lower);
+    }
+    if (Object.prototype.hasOwnProperty.call(BASE_DICT, text)) {
+      return BASE_DICT[text];
+    }
+    if (BASE_LOWER_MAP.has(lower)) {
+      return BASE_LOWER_MAP.get(lower);
+    }
+    return null;
   }
 
   /**
@@ -106,35 +134,33 @@
     const core = match[2];
     const trail = match[3];
 
-    if (!core || core.length > 180) return null;
+    if (!core || core.length > 260) return null;
     if (!/[A-Za-z]/.test(core)) return null;
 
-    // 1. 用户自定义词库（最高优先级）
-    const custom = settings.customDict || {};
-    if (Object.prototype.hasOwnProperty.call(custom, core) && custom[core]) {
-      return lead + custom[core] + trail;
-    }
-    const coreLower = core.toLowerCase();
-    if (customLowerMap.has(coreLower)) {
-      return lead + customLowerMap.get(coreLower) + trail;
+    const normalized = normalizeLookupText(core);
+    if (!normalized) return null;
+
+    // 1. 精确 / 大小写不敏感匹配（先原文再标点归一化版本，兼容 … / 智能引号 / 换行文本）
+    const direct = lookupExactOrLower(core) || (normalized !== core ? lookupExactOrLower(normalized) : null);
+    if (direct) {
+      return lead + direct + trail;
     }
 
-    // 2. 内置精确词库
-    if (Object.prototype.hasOwnProperty.call(BASE_DICT, core)) {
-      return lead + BASE_DICT[core] + trail;
+    // 2. 自动兼容带末尾省略号（... 或 …）的菜单项
+    if (normalized.endsWith("...") && normalized.length > 3) {
+      const withoutEllipsis = normalized.slice(0, -3).trim();
+      const baseHit = lookupExactOrLower(withoutEllipsis);
+      if (baseHit) {
+        return lead + baseHit + "..." + trail;
+      }
     }
 
-    // 3. 内置大小写不敏感词库（兼容全大写标题如 "AUTO LAYOUT"）
-    if (BASE_LOWER_MAP.has(coreLower)) {
-      return lead + BASE_LOWER_MAP.get(coreLower) + trail;
-    }
-
-    // 4. 动态正则规则（时间、数量、动态操作）
+    // 3. 动态正则规则（时间、数量、动态操作）
     for (let i = 0; i < REGEX_RULES.length; i++) {
       const rule = REGEX_RULES[i];
-      if (rule.pattern.test(core)) {
-        const replaced = core.replace(rule.pattern, rule.replace);
-        if (replaced && replaced !== core) {
+      if (rule.pattern.test(normalized)) {
+        const replaced = normalized.replace(rule.pattern, rule.replace);
+        if (replaced && replaced !== normalized) {
           return lead + replaced + trail;
         }
       }

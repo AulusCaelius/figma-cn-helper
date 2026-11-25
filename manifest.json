@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Figma 中文汉化助手",
   "short_name": "Figma 汉化",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "将 Figma 网页版及浏览器桌面应用（PWA）界面实时汉化为简体中文，支持一键中英切换、按住 Option 速查原文、自定义词库与页面取词。",
   "permissions": [
     "storage",
