@@ -7,7 +7,6 @@
   --muted: #6e6e73;
   --accent: #0d99ff;
   --accent-hover: #007be5;
-  --danger: #e53935;
   --tip-bg: #eef7ff;
   --tip-border: #cde5ff;
 }
@@ -22,7 +21,6 @@
     --muted: #a1a1a6;
     --accent: #0d99ff;
     --accent-hover: #2aa6ff;
-    --danger: #ff5c5c;
     --tip-bg: rgba(13, 153, 255, 0.12);
     --tip-border: rgba(13, 153, 255, 0.28);
   }
@@ -150,16 +148,16 @@ body {
 /* Stats */
 .stats-bar {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .stat-pill {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 7px 8px;
+  padding: 8px 10px;
   text-align: center;
 }
 
@@ -170,82 +168,8 @@ body {
 }
 
 .stat-pill strong {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
-}
-
-/* Quick actions */
-.quick-actions {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.action-btn {
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  border-radius: 8px;
-  padding: 8px 11px;
-  font-size: 12.5px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.action-btn:hover {
-  background: var(--surface-hover);
-}
-
-.action-btn.primary {
-  flex: 1;
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-
-.action-btn.primary:hover {
-  background: var(--accent-hover);
-}
-
-.action-btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-/* Tabs */
-.tabs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background: var(--surface);
-  border-radius: 8px;
-  padding: 3px;
-  margin-bottom: 12px;
-}
-
-.tab {
-  border: none;
-  background: transparent;
-  color: var(--muted);
-  font-size: 12.5px;
-  font-weight: 500;
-  padding: 6px 0;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.tab.active {
-  background: var(--bg);
-  color: var(--text);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-}
-
-.panel {
-  display: none;
-}
-
-.panel.active {
-  display: block;
 }
 
 /* Settings */
@@ -279,11 +203,37 @@ body {
   margin-top: 2px;
 }
 
+/* Custom Checkbox with Pure White Checkmark */
 .setting-item input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--accent);
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  border-radius: 5px;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
   flex-shrink: 0;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.setting-item input[type="checkbox"]:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.setting-item input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
 
 .tip-card {
@@ -303,135 +253,6 @@ body {
 .tip-card p {
   margin: 0;
   color: var(--muted);
-}
-
-/* Custom Dict */
-.add-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-
-.add-form input,
-.search-row input {
-  width: 100%;
-  padding: 7px 8px;
-  border-radius: 7px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  font-size: 12px;
-  outline: none;
-}
-
-.add-form input:focus,
-.search-row input:focus {
-  border-color: var(--accent);
-}
-
-.add-btn {
-  border: none;
-  background: var(--accent);
-  color: #fff;
-  border-radius: 7px;
-  padding: 0 11px;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.add-btn:hover {
-  background: var(--accent-hover);
-}
-
-.search-row {
-  margin-bottom: 8px;
-}
-
-.dict-list {
-  max-height: 185px;
-  overflow-y: auto;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
-  margin-bottom: 10px;
-}
-
-.dict-empty {
-  padding: 22px 12px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.dict-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 7px 10px;
-  border-bottom: 1px solid var(--border);
-}
-
-.dict-row:last-child {
-  border-bottom: none;
-}
-
-.dict-pair {
-  min-width: 0;
-  flex: 1;
-}
-
-.dict-en {
-  font-size: 12px;
-  font-weight: 500;
-  word-break: break-word;
-}
-
-.dict-zh {
-  font-size: 11.5px;
-  color: var(--accent);
-  word-break: break-word;
-}
-
-.del-btn {
-  border: none;
-  background: transparent;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 14px;
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.del-btn:hover {
-  color: var(--danger);
-  background: rgba(229, 57, 53, 0.1);
-}
-
-.dict-footer {
-  display: flex;
-  gap: 6px;
-}
-
-.mini-btn {
-  flex: 1;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  border-radius: 7px;
-  padding: 6px 8px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.mini-btn:hover {
-  background: var(--surface-hover);
-}
-
-.mini-btn.danger {
-  color: var(--danger);
 }
 
 /* Toast */
